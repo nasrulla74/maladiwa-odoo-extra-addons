@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-inherit="point_of_sale.PartnerListScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('top-content')]" position="inside">
+<!--            <h3>Inherited</h3>-->
+<!--            <div class="button back"-->
+<!--                  t-on-click="() => this.go_next()">-->
+<!--                <span class="back_text">Next222</span>-->
+<!--                <i class="fa fa-angle-double-right fa-fw"></i>-->
+<!--            </div>-->
+        </xpath>
+    </t>
+</templates>

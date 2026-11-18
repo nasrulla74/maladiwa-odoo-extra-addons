@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record model="ir.ui.view" id="appeul_hotel_booking_departure_search">
+		<field name="name">hotel.booking.departure.search</field>
+		<field name="model">hotel.register</field>
+		<field name="arch" type="xml">
+			<search string="Departures">
+				<field name="name"/>
+				<field name="booking_ref"/>
+				<field name="reg_state"/>
+				<field name="room_id"/>
+                <separator/>
+                <filter name="filter_today_departure" string="Today's Departures" domain="[
+                ('dep_date', '&gt;=', (datetime.datetime.combine(context_today(), datetime.time(0,0,0)).to_utc()).strftime('%Y-%m-%d %H:%M:%S')),
+                ('dep_date', '&lt;=', (datetime.datetime.combine(context_today(), datetime.time(23,59,59)).to_utc()).strftime('%Y-%m-%d %H:%M:%S'))
+                ]"/>
+                <filter name="filter_tomorrow_departure" string="Tomorrow's Departures" domain="[
+                ('dep_date', '&gt;=', (datetime.datetime.combine(context_today() + relativedelta(days=+1), datetime.time(0,0,0)).to_utc()).strftime('%Y-%m-%d %H:%M:%S')),
+                ('dep_date', '&lt;=', (datetime.datetime.combine(context_today() + relativedelta(days=+1), datetime.time(23,59,59)).to_utc()).strftime('%Y-%m-%d %H:%M:%S'))
+                ]"/>
+                <filter name="filter_next30days_departure" string="Next 30 Days Departures" domain="[
+                ('dep_date', '&gt;=', (datetime.datetime.combine(context_today(), datetime.time(0,0,0)).to_utc()).strftime('%Y-%m-%d %H:%M:%S')),
+                ('dep_date', '&lt;=', (datetime.datetime.combine(context_today() + relativedelta(days=+30), datetime.time(23,59,59)).to_utc()).strftime('%Y-%m-%d %H:%M:%S'))
+                ]"/>
+                <separator/>
+                 <group expand="0" string="Group by Room">
+<!--                    <filter name="group_by_state" context="{'group_by' : 'reg_state'}"/>-->
+                    <filter name="group_by_room" context="{'group_by' : 'room_id'}"/>
+                </group>
+
+                <searchpanel>
+                    <field name="reg_state" enable_counters="1" />
+                </searchpanel>
+
+			</search>
+		</field>
+	</record>
+
+<!-- <record id="view_appeul_booking_today_departure_form" model="ir.ui.view">-->
+<!--        <field name="name">appeul.guest.register.departure.form</field>-->
+<!--        <field name="model">hotel.register</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form>-->
+<!--                <header>-->
+<!--               </header>-->
+<!--                <sheet>-->
+<!--                   <div class="oe_title">-->
+<!--                    </div>-->
+<!--                    <group>-->
+<!--                        <group>-->
+<!--                            <field name="name" readonly="1"/>-->
+<!--                            <field name="arr_date" readonly="1"/>-->
+<!--                            <field name="dep_date" readonly="1"/>-->
+
+<!--                            <field name="reg_state" string="Booking State" readonly="1"/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                        </group>-->
+<!--                    </group>-->
+
+
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="appeul_register_today_departure_tree" model="ir.ui.view">
+        <field name="name">appeul.register.today.departure.tree</field>
+        <field name="model">hotel.register</field>
+        <field name="arch" type="xml">
+            <tree export_xlsx ="0" create="0">
+                <field name="reg_no"/>
+                <field name="room_id"/>
+                <field name="guest_id" string="Guest Name"/>
+                <field name="arr_date" />
+                <field name="dep_date" />
+                <field name="meal_id" />
+                <field name="rm_cat_id" />
+                <field name="country_id" />
+                <field name="identification_no" />
+                <field name="date_of_birth" />
+                <field name="bk_method"/>
+                <field name="reg_state" />
+                <field name="booking_id" />
+                <field name="booking_ref"/>
+                <field name="name"/>
+           </tree>
+        </field>
+    </record>
+
+
+
+<record id="action_register_today_departure" model="ir.actions.act_window">
+        <field name="name">Today's Departures</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.register</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="appeul_hotel_booking_departure_search"/>
+        <field name="domain">[('reg_state', 'in', ['checked-in'])]</field>
+        <field name="context">{'search_default_filter_today_departure': 1}</field>
+
+        <field name="view_ids"
+                eval="[(5, 0, 0),
+                    (0, 0, {'sequence': 2, 'view_mode': 'tree', 'view_id': ref('appeul_register_today_departure_tree')}),
+                    (0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('view_appeul_hotel_register_form')}),
+                ]"/>
+
+
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Departures today!!
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="listmenu_today_departure"
+              name="Departures"
+              action="action_register_today_departure"
+              parent="menu_guesthouse_root"
+              sequence="6"/>
+
+
+
+
+   </odoo>

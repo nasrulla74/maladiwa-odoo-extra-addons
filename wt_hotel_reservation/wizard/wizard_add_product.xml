@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="wt_booking_add_product_form" model="ir.ui.view">
+         <field name="name">gh.booking.add.product.wizard</field>
+         <field name="model">add.roomtype.wizard</field>
+         <field name="arch" type="xml">
+            <form string="Extend Guest">
+                <group>
+                    <group>
+                        <field name="hotel_id" readonly="1" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                        <field name="room_cate_id" />
+                        <field name="meal_id" />
+                        <field name="total_amount" />
+                    </group>
+
+                    <group>
+                         <field name="adults" />
+                        <field name="childs" />
+                        <field name="infants" />
+                         <field name="booking_id" invisible="1" />
+                    </group>
+                </group>
+                <footer>
+<!--                    <button name="action_extend_guest" string="Save Changes" type="object" class="btn-primary" confirm="Are you sure to extend this booking?"/>-->
+                    <button name="action_room_type" string="Add" type="object" class="btn-primary"/>
+                </footer>
+            </form>
+         </field>
+     </record>
+
+    <record id="wt_action_booking_add_product_wizard" model="ir.actions.act_window">
+        <field name="name">Add Room Types</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">add.roomtype.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="wt_booking_add_product_form"/>
+        <field name="target">new</field>
+    </record>
+
+
+
+</odoo>

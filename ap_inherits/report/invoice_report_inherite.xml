@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+             <template id="appeul_invoice_inherit" inherit_id="account.report_invoice_document">
+
+<!--                 <xpath expr="//h2/*[contains(text(), 'Invoice')]" position="replace">-->
+<!--&lt;!&ndash;                     <span>Tax Invoice</span>&ndash;&gt;-->
+<!--                 </xpath>-->
+                 <xpath expr="//div[@id='informations']" position="inside">
+                     <div class="col-auto col-3 mw-100 mb-2" name="po_number">
+                         <t t-if="o.env['ir.config_parameter'].get_param('ap_inherits.tax_invoice') == 'True'">
+                            <strong>PO Number:</strong>
+                            <p class="m-0" t-if="o.po_number" t-field="o.po_number"/>
+                         </t>
+
+<!--                            <strong>PO Number:</strong>-->
+<!--                            <p class="m-0" t-if="o.po_number" t-field="o.po_number"/>-->
+
+
+
+                     </div>
+                 </xpath>
+
+
+
+
+             </template>
+
+</odoo>

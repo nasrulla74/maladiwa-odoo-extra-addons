@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_appeul_hotel,hotel_register,model_hotel_register,base.group_user,1,1,1,0
+access_hotel_activities,hotel__activities,model_hotel_ex_activities,base.group_user,1,1,1,0
+access_hotel_complaints,hotel_complaints,model_hotel_complain,base.group_user,1,1,1,0
+access_guest_extend_wizard,hotel_guest_extend_wizard,model_guest_extend_wizard,base.group_user,1,1,1,0

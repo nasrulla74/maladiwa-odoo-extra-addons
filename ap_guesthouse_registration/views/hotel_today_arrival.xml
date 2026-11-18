@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record model="ir.ui.view" id="appeul_hotel_booking_arrival_search">
+		<field name="name">hotel.booking.arrival.search</field>
+		<field name="model">sale.order</field>
+		<field name="arch" type="xml">
+			<search string="Bookings">
+				<field name="booking_name"/>
+				<field name="booking_ref"/>
+				<field name="bk_state"/>
+                <separator/>
+                <filter name="filter_today_arrivals" string="Today's Arrivals" domain="[
+                ('check_in_date', '&gt;=', (datetime.datetime.combine(context_today(), datetime.time(0,0,0)).to_utc()).strftime('%Y-%m-%d %H:%M:%S')),
+                ('check_in_date', '&lt;=', (datetime.datetime.combine(context_today(), datetime.time(23,59,59)).to_utc()).strftime('%Y-%m-%d %H:%M:%S'))
+                ]"/>
+                <filter name="filter_tomorrow_arrivals" string="Tomorrow's Arrivals" domain="[
+                ('check_in_date', '&gt;=', (datetime.datetime.combine(context_today() + relativedelta(days=+1), datetime.time(0,0,0)).to_utc()).strftime('%Y-%m-%d %H:%M:%S')),
+                ('check_in_date', '&lt;=', (datetime.datetime.combine(context_today() + relativedelta(days=+1), datetime.time(23,59,59)).to_utc()).strftime('%Y-%m-%d %H:%M:%S'))
+                ]"/>
+                <filter name="filter_next30days_arrivals" string="Next 30 Days Arrivals" domain="[
+                ('check_in_date', '&gt;=', (datetime.datetime.combine(context_today(), datetime.time(0,0,0)).to_utc()).strftime('%Y-%m-%d %H:%M:%S')),
+                ('check_in_date', '&lt;=', (datetime.datetime.combine(context_today() + relativedelta(days=+30), datetime.time(23,59,59)).to_utc()).strftime('%Y-%m-%d %H:%M:%S'))
+                ]"/>
+
+
+                <!--                <filter string="Trailing 12 months" name="completion_date" domain="[-->
+<!--                        ('date', '>=', (datetime.datetime.combine(context_today() + relativedelta(days=-365), datetime.time(0,0,0)).to_utc()).strftime('%Y-%m-%d %H:%M:%S')),-->
+<!--                        ('date', '>=', (datetime.datetime.combine(context_today(), datetime.time(0,0,0)).to_utc()).strftime('%Y-%m-%d %H:%M:%S'))]"/>-->
+<!--                    <separator/>-->
+
+                <separator/>
+                <group expand="0" string="Booking State">
+                    <field name="bk_state" context="{'group_by' : 'bk_state'}"/>
+                </group>
+				<searchpanel>
+					<field name="bk_state" string="State" enable_counters="1"/>
+				</searchpanel>
+			</search>
+		</field>
+	</record>
+
+ <record id="view_appeul_booking_form_today_arrival" model="ir.ui.view">
+        <field name="name">view.appeul.booking.form.today.arrival</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+
+                    <button name="action_check_in" type="object"  string="Check-In" class="oe_highlight"
+                    attrs="{'invisible': [('bk_state', 'in', ['draft','cancelled', 'check_in', 'check_out', 'cancelled'])]}" confirm="Are you sure to Check-In, this booking?"/>
+                    <button name="action_noshow" type="object"  string="No Show" class="oe_highlight"
+                    attrs="{'invisible': [('bk_state', 'in', ['draft','cancelled', 'check_in', 'check_out', 'cancelled'])]}" confirm="Are you sure to set as No Show, this booking?"/>
+
+
+
+
+                </header>
+                <sheet>
+<!--                    <div class="oe_button_box" name="button_box">-->
+<!--                        <button name="open_guest_credit_bills" class="oe_stat_button" type="object" icon="fa-money">-->
+<!--                            <field string="POS Orders" name="uninvoiced_pos_orders" widget="statinfo" options="{'currency_field': 'currency_id'}" />-->
+<!--                        </button>-->
+<!--                         <button name="open_guest_credit_bills" class="oe_stat_button text-danger" type="object" icon="fa-info-circle">-->
+<!--                             <field string="Balance Due" name="total_credit_due" widget="statinfo" options="{'currency_field': 'currency_id'}" />-->
+<!--                        </button>-->
+<!--                    </div>-->
+                   <div class="oe_title">
+<!--                        <h1>-->
+<!--                           <field name="room_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"-->
+<!--                              attrs="{'readonly': [('bk_state','!=', 'confirm')]}"-->
+<!--                              />-->
+
+<!--                        </h1>-->
+                    </div>
+                    <group>
+                        <group>
+                            <field name="allocated_room_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            <field name="name" readonly="1"/>
+                            <field name="check_in_date" readonly="1"/>
+                            <field name="check_out_date" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="state" string="Invoice State" readonly="1"/>
+                            <field name="bk_state" string="Booking State" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="total_guests_arrived"/>
+                            <field name="booking_name" readonly="1"/>
+                            <field name="booking_ref" readonly="1"/>
+                            <field name="tot_pax" readonly="1"/>
+                            <field name="room_type_details" readonly="1"/>
+
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Register">
+
+                                    <field name="register_ids" string="Checked-In Guests">
+                                    <tree editable="top">
+                                        <field name="reg_no" />
+                                        <field name="room_id" />
+                                        <field name="guest_id" domain = "[('is_guest','=',True)]"/>
+                                        <field name="reg_category" />
+                                        <field name="country_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                        <field name="identification_no" />
+                                        <field name="arr_date" readonly="1"/>
+                                        <field name="dep_date" readonly="1"/>
+                                    </tree>
+
+                                    <form>
+                                        <group>
+                                            <field name="guest_id" domain = "[('is_guest','=',True)]"/>
+                                            <field name="country_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                            <field name="identification_no" />
+                                            <field name="arr_date" />
+                                            <field name="dep_date" />
+                                            <field name="bk_method" />
+                                            <field name="reg_category" />
+<!--                                            <field name="room_id" />-->
+                                            </group>
+                                    </form>
+                                    </field>
+
+
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_appeul_booking_tree_today_arrival" model="ir.ui.view">
+        <field name="name">view.appeul.booking.tree.today.arrival</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <tree export_xlsx ="0" create="0">
+                 <field name="name"/>
+                <field name="booking_name"/>
+                <field name="check_in_date"/>
+                <field name="check_out_date"/>
+                <field name="booking_ref"/>
+                <field name="bk_method"/>
+                <field name="partner_id"/>
+                <field name="bk_state"/>
+           </tree>
+        </field>
+    </record>
+
+
+
+<record id="action_bookings_today_arrival" model="ir.actions.act_window">
+        <field name="name">Today's Arrivals</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="appeul_hotel_booking_arrival_search"/>
+<!--        <field name="domain">[('check_in_date','=',context_today()), ('bk_state', '=', 'booked')]</field>-->
+        <field name="domain">[('bk_state', 'in', ['booked', 'check_in'])]</field>
+        <field name="context">{'search_default_filter_today_arrivals': 1}</field>
+
+        <field name="view_ids"
+                eval="[(5, 0, 0),
+                    (0, 0, {'sequence': 2, 'view_mode': 'tree', 'view_id': ref('view_appeul_booking_tree_today_arrival')}),
+                    (0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('view_appeul_booking_form_today_arrival')}),
+                ]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Arrivals today!!
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="listmenu_today_arrival"
+              name="Arrivals"
+              action="action_bookings_today_arrival"
+              parent="menu_guesthouse_root"
+              sequence="5"/>
+
+
+
+
+   </odoo>

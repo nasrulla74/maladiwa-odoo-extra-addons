@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="gh_guest_extend_form" model="ir.ui.view">
+         <field name="name">gh.guest.extend.wizard</field>
+         <field name="model">guest.extend.wizard</field>
+         <field name="arch" type="xml">
+            <form string="Extend Guest">
+                <group>
+
+                    <field name="name" readonly="1"/>
+                    <field name="guest_id" invisible="1"/>
+                    <field name="arr_date" readonly="1"/>
+                    <field name="dep_date" readonly="1"/>
+                    <field name="booking_ref" readonly="1"/>
+                    <field name="new_dep_date"/>
+
+                </group>
+                <footer>
+                    <button name="action_extend_guest" string="Save Changes" type="object" class="btn-primary" confirm="Are you sure to extend this booking?"/>
+                </footer>
+            </form>
+         </field>
+     </record>
+
+    <record id="win_action_guest_extend_wizard" model="ir.actions.act_window">
+        <field name="name">Extend Guest</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">guest.extend.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="gh_guest_extend_form"/>
+        <field name="target">new</field>
+    </record>
+
+
+
+</odoo>

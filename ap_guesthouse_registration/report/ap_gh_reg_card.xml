@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="ap_gh_reg_card">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                       <div class="page">
+
+
+                           <h3 class="text-decoration-underline py-3" style="text-align:center;">Guest Registration Card</h3>
+
+                           <table class="mt-1 table-bordered table-fixed" style="width:100%;" valign="center">
+                        <tbody>
+                            <tr>
+                                <td class="p-3">Guest Name</td>
+                                <td class="p-3" colspan="3"><t t-esc="o.guest_id.name"/></td>
+<!--                                <td class="p-3">Home</td>-->
+<!--                                <td class="px-5">Office</td>-->
+                            </tr>
+                            <tr>
+                                <td class="p-3">Arrival Date:</td>
+                                <td class="p-3"><t t-esc="o.arr_date.strftime('%d-%b-%Y')"/></td>
+                                <td class="p-3">Registration No:</td>
+                                <td class="p-3"><t t-esc="o.reg_no"/></td>
+                            </tr>
+                            <tr>
+                                <td class="p-3">Arrival Flight:</td>
+                                <td class="p-3"></td>
+                                <td class="p-3">Booking No:</td>
+                                <td class="p-3"><t t-esc="o.booking_id.name"/></td>
+                            </tr><tr>
+                                <td class="p-3">Arrival Transfer By:</td>
+                                <td class="p-3"></td>
+                                <td class="p-3">Room Number:</td>
+                                <td class="p-3"><t t-esc="o.room_id.name"/></td>
+                            </tr><tr>
+                                <td class="p-3">Departure Date:</td>
+                                <td class="p-3"><t t-esc="o.dep_date.strftime('%d-%b-%Y')"/></td>
+                                 <td class="p-3">Passport Number:</td>
+                                <td class="p-3"><t t-esc="o.identification_no"/></td>
+                            </tr><tr>
+                                <td class="p-3">Departure Flight:</td>
+                                <td class="p-3"></td>
+                                <td class="p-3">Date of Birth:</td>
+                                <td class="p-3"><t t-esc="o.date_of_birth.strftime('%d-%b-%Y')"/></td>
+                            </tr><tr>
+                                <td class="p-3">Departure Transfer By:</td>
+                                <td class="p-3"></td>
+                                <td class="p-3">Meal Plan:</td>
+                                <td class="p-3"><t t-esc="o.meal_id.name"/></td>
+                            </tr><tr>
+                                <td class="p-3">Nationality:</td>
+                                <td class="p-3"><t t-esc="o.country_id.name"/></td>
+                                <td class="p-3">Room Category:</td>
+                                <td class="p-3"><t t-esc="o.rm_cat_id.name"/></td>
+                            </tr>
+
+
+                        </tbody>
+                 </table>
+
+                       </div>
+                </t>
+            </t>
+        </t>
+
+    </template>
+
+</odoo>

@@ -1,0 +1,2 @@
+from . import add_product_wizard
+

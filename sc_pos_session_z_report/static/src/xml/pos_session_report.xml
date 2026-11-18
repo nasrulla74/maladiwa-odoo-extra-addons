@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="PosCustomRepButton" owl="1">
+        <span></span>
+<!--        <div t-groups="base.group_system">-->
+<!--             -->
+<!--        </div>-->
+<!--        <span class="control-button">-->
+<!--                <i class="fa fa-calculator"></i>-->
+<!--                <span>Session Report2</span>-->
+<!--            </span>-->
+
+    </t>
+</templates>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+ <record id="view_appeul_hotel_register_form" model="ir.ui.view">
+        <field name="name">view.appeul.hotel.register.form</field>
+        <field name="model">hotel.register</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="%(win_action_guest_extend_wizard)d" type="action" string="EXTEND" attrs="{'invisible': [('reg_state', 'in', ['checked-out'])]}" class="btn-primary"/>
+                    <button name="action_check_out" type="object" string="Check-Out" attrs="{'invisible': [('reg_state', 'in', ['checked-out'])]}" class="btn-primary"/>
+
+
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" class="oe_stat_button" icon="fa-pencil-square-o" name="appeul_action_view_partner_invoices"
+                        groups="account.group_account_invoice,account.group_account_readonly"
+                        context="{'default_guest_id': active_id}">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="currency_id" invisible="1"/>
+                                <field name="due_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            </span>
+                            <span class="o_stat_text">Balance Due</span>
+                        </div>
+                    </button>
+
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="reg_no"/>
+                            <field name="booking_id" readonly="1" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            <field name="name" readonly="1"/>
+                            <field name="guest_id" domain = "[('is_guest','=',True)]"/>
+                            <field name="room_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            <field name="country_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            <field name="identification_no" />
+                            <field name="currency_id" />
+                            <field name="due_amount" />
+
+
+
+                        </group>
+                        <group>
+                            <field name="arr_date" readonly="1"/>
+                            <field name="dep_date" readonly="1"/>
+                            <field name="date_of_birth" />
+                            <field name="bk_method" readonly="1"/>
+                            <field name="reg_state" readonly="1"/>
+                            <field name="meal_id" readonly="1" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            <field name="rm_cat_id" readonly="1" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+
+                        </group>
+                    </group>
+
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_appeul_hotel_register_tree" model="ir.ui.view">
+        <field name="name">view.appeul.hotel.register.tree</field>
+        <field name="model">hotel.register</field>
+        <field name="arch" type="xml">
+            <tree export_xlsx ="1" create="1">
+                <field name="reg_no"/>
+                <field name="room_id"/>
+                <field name="guest_id" string="Guest Name"/>
+                <field name="arr_date" />
+                <field name="dep_date" />
+                <field name="meal_id" />
+                <field name="rm_cat_id" />
+                <field name="country_id" />
+                <field name="identification_no" />
+                <field name="date_of_birth" />
+                <field name="bk_method"/>
+                <field name="reg_state" />
+                <field name="booking_id" />
+                <field name="booking_ref"/>
+                <field name="name" invisible="1"/>
+
+
+           </tree>
+        </field>
+    </record>
+
+
+
+
+ <!-- search view -->
+    <record id="view_gh_register_hotel_search" model="ir.ui.view">
+        <field name="name">view.gh.register.hotel.search</field>
+        <field name="model">hotel.register</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="reg_no"/>
+                <field name="room_id" />
+                <field name="name"/>
+                <field name="arr_date" />
+                <field name="dep_date" />
+                <field name="country_id" />
+                <field name="identification_no" />
+                <field name="date_of_birth" />
+                <field name="bk_method"/>
+                <field name="reg_state" />
+
+                <filter name="checkedin_filter" string="Checked-In" domain="[('reg_state', '=', 'checked-in')]" />
+                <filter name="checkedout_filter" string="Checked-Out" domain="[('reg_state', '=', 'checked-out')]" />
+<!--                <group expand="0" string="Group By">-->
+<!--                    <filter string="Room No" name="roomno" context="{'group_by':'room_id'}"/>-->
+<!--                   -->
+<!--                </group>-->
+
+                <searchpanel>
+                    <field name="reg_state" enable_counters="1" />
+                </searchpanel>
+           </search>
+        </field>
+    </record>
+
+
+    <record id="action_appeul_hotel_register" model="ir.actions.act_window">
+        <field name="name">Hotel Guest Register</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.register</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids"
+                eval="[(5, 0, 0),
+                    (0, 0, {'sequence': 2, 'view_mode': 'tree', 'view_id': ref('view_appeul_hotel_register_tree')}),
+                    (0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('view_appeul_hotel_register_form')}),
+                ]"/>
+
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create register!!
+            </p>
+        </field>
+    </record>
+   </odoo>

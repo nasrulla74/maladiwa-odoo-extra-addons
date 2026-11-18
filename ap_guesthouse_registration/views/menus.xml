@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_guesthouse_root"
+              name="Hotel Front Office"
+              parent=""
+              sequence="0"/>
+
+
+    
+     <menuitem id="listmenu_register"
+              name="Guest Register"
+              action="action_appeul_hotel_register"
+              parent="menu_guesthouse_root"
+              sequence="10"/>
+
+
+
+
+
+
+
+   </odoo>
